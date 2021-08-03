@@ -2,7 +2,7 @@ language : node_js
 node_js :
  - 14
 install:
- - yarn install
+ - npm install -g @nestjs/cli
 script:
   - docker build -t $DOCKER_USER/manager_server:latest .
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
