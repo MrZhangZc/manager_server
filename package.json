@@ -1,7 +1,7 @@
 {
   "name": "manager",
   "version": "0.0.1",
-  "description": "manager-server",
+  "description": "manager_server",
   "author": "zhangzhichao",
   "license": "MIT",
   "repository": "https://github.com/MrZhangZc/manager_server.git",
