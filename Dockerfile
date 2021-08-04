@@ -1,9 +1,7 @@
-FROM keymetrics/pm2:10-alpine
+FROM keymetrics/pm2:14-jessie
 
-ARG NODE_ENV=production
 ARG PORT=5002
 
-ENV NODE_ENV $NODE_ENV
 ENV PORT $PORT
 
 EXPOSE $PORT
@@ -19,4 +17,4 @@ RUN yarn install \
 
 COPY up.yml /app/
 
-CMD ["pm2-runtime", "start", "up.yml"]
+CMD [ "yarn", "run", "pm2-docker-prod" ]
