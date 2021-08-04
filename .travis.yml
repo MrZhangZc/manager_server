@@ -3,7 +3,7 @@ node_js :
  - 14
 install:
  - yarn add @nestjs/cli
-after_success:
+script:
   - docker build -t $DOCKER_USER/manager_server:latest .
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker push $DOCKER_USER/manager_server:latest
