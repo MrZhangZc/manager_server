@@ -18,13 +18,13 @@ import * as pinyin from 'pinyin';
 import { Role, User } from '../../secmas';
 import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('/article')
 export class ArticleController {
   constructor(
     private readonly articleService: ArticleService, // private readonly jwtService: JwtService,
   ) {}
 
-  @UseGuards(AuthGuard('jwt'))
   @Get()
   async articleList(@Query() query) {
     const res = await this.articleService.findList(query);
@@ -73,11 +73,14 @@ export class ArticleController {
       style: pinyin.STYLE_NORMAL,
       heteronym: false,
     })
-    .map(function (item) {
-      return item[0];
-    })
-    .join(' ');
-    const userinfo = await this.articleService.findUser({account:req.user.account});
+      .map(function (item) {
+        return item[0];
+      })
+      .join(' ');
+
+    const userinfo = await this.articleService.findUser({
+      account: req.user.account,
+    });
     const category = await this.articleService.findOneCategory(body.category);
     const article = {
       title,
@@ -88,7 +91,7 @@ export class ArticleController {
       imgurl: body.imgurl,
       category: category._id,
       author: userinfo._id,
-      publishd: true
+      publishd: true,
     };
     return await this.articleService.createArticle(article);
   }
@@ -102,11 +105,13 @@ export class ArticleController {
       style: pinyin.STYLE_NORMAL,
       heteronym: false,
     })
-    .map(function (item) {
-      return item[0];
-    })
-    .join(' ');
-    const userinfo = await this.articleService.findUser({account:req.user.account});
+      .map(function (item) {
+        return item[0];
+      })
+      .join(' ');
+    const userinfo = await this.articleService.findUser({
+      account: req.user.account,
+    });
     const category = await this.articleService.findOneCategory(body.category);
     const article = {
       title,
@@ -117,14 +122,8 @@ export class ArticleController {
       imgurl: body.imgurl,
       category: category._id,
       author: userinfo._id,
-      publishd: true
+      publishd: true,
     };
     return await this.articleService.updateArticle(id, article);
-  }
-
-  @Delete('role/:id')
-  async deleteRole(@Param() { id }) {
-    await this.articleService.deleteRole(id);
-    return 'success';
   }
 }

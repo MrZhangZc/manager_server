@@ -15,16 +15,14 @@ import { AuthGuard } from '@nestjs/passport';
 
 @Controller('/')
 export class UserAccessController {
-  constructor(
-    private readonly userAccessService: UserAccessService,
-  ) {}
+  constructor(private readonly userAccessService: UserAccessService) {}
 
   @Post('login')
-  async login(@Body() {account, password}: any) {
-    const user:any = await this.userAccessService.findUser({account});
-    if(!user) return { state: 400, msg: '用户名或密码错误'};
-    const trueUser = await user.conparePassword(password)
-    if(!trueUser) return { state: 400, msg: '用户名或密码错误'};
+  async login(@Body() { account, password }: any) {
+    const user: any = await this.userAccessService.findUser({ account });
+    if (!user) return { state: 400, msg: '用户名或密码错误' };
+    const trueUser = await user.conparePassword(password);
+    if (!trueUser) return { state: 400, msg: '用户名或密码错误' };
     return {
       token: await this.userAccessService.getToken({
         account,
@@ -35,8 +33,16 @@ export class UserAccessController {
   }
 
   @UseGuards(AuthGuard('jwt'))
+  @Get('logout')
+  async logout() {
+    return 'success';
+  }
+
+  @UseGuards(AuthGuard('jwt'))
   @Get('user/current')
   async current(@Request() request) {
-    return await this.userAccessService.findUser({ account: request.user.account });
+    return await this.userAccessService.findUser({
+      account: request.user.account,
+    });
   }
 }

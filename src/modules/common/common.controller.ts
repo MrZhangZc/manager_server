@@ -7,11 +7,13 @@ import {
   UseInterceptors,
   UploadedFile,
   Body,
+  UseGuards,
 } from '@nestjs/common';
-
+import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { saveToQiNIu } from '../../util';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('/')
 export class CommonController {
   @UseInterceptors(FileInterceptor('file'))

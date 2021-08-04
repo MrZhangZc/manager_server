@@ -12,10 +12,12 @@ export class Category extends mongoose.Document {
   @Prop()
   abbreviation: string;
 
-  @Prop(raw({
-    createdAt: { type: Date },
-    updatedAt: { type: Date }
-  }))
+  @Prop(
+    raw({
+      createdAt: { type: Date },
+      updatedAt: { type: Date },
+    }),
+  )
   meta: any;
 }
 
@@ -23,9 +25,9 @@ export const CategorySchema = SchemaFactory.createForClass(Category);
 
 CategorySchema.pre('save', function (next) {
   if (this.isNew) {
-    this.meta.createdAt = this.meta.updatedAt = Date.now()
+    this.meta.createdAt = this.meta.updatedAt = Date.now();
   } else {
-    this.meta.updatedAt = Date.now()
+    this.meta.updatedAt = Date.now();
   }
-  next()
-})
+  next();
+});

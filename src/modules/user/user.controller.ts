@@ -10,21 +10,22 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { CreateUserDto } from '../../dto'
+import { CreateUserDto } from '../../dto';
 import { UserService } from './user.service';
 
 import { Role, User } from '../../secmas';
-
+import { AuthGuard } from '@nestjs/passport';
+@UseGuards(AuthGuard('jwt'))
 @Controller('/user')
 export class UserController {
-  constructor(
-    private readonly userService: UserService
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   async create(@Body() body: CreateUserDto) {
-    const role = await this.userService.findRoleByQuery({access: body.access});
-    if(!role) return { state: 400, msg: 'role error'}
+    const role = await this.userService.findRoleByQuery({
+      access: body.access,
+    });
+    if (!role) return { state: 400, msg: 'role error' };
     Object.assign(body, { role });
     return this.userService.createUser(body);
   }
