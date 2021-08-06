@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 import {
   VersionModule,
@@ -7,11 +8,13 @@ import {
   UserModule,
   ArticleModule,
   CommonModule,
+  BaiduModule,
 } from './modules';
 @Module({
   imports: [
     MongooseModule.forRoot(process.env.DB_URL, {
       connectionFactory: (connection) => {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         connection.plugin(require('@meanie/mongoose-to-json'));
         return connection;
       },
@@ -21,6 +24,7 @@ import {
     UserModule,
     ArticleModule,
     CommonModule,
+    BaiduModule,
   ],
 })
 export class AppModule {}
