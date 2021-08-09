@@ -9,6 +9,7 @@ import {
   ArticleModule,
   CommonModule,
   BaiduModule,
+  VisitorModule,
 } from './modules';
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import {
     ArticleModule,
     CommonModule,
     BaiduModule,
+    VisitorModule,
   ],
 })
 export class AppModule {}

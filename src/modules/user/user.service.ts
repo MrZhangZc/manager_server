@@ -12,11 +12,11 @@ export class UserService {
     private readonly roleModel: Model<Role>,
   ) {}
 
-  async createUser(body):Promise<User> {
+  async createUser(body): Promise<User> {
     return await this.userModel.create(body);
   }
 
-  async findRoleByQuery(query):Promise<Role> {
+  async findRoleByQuery(query): Promise<Role> {
     return await this.roleModel.findOne(query);
   }
 
