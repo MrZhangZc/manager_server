@@ -1,0 +1,48 @@
+doctype html
+html(lang="en")
+    head
+        title 嗨
+        <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet">
+    body
+        img(src=imgurl)
+        h1.text-info 早上好 #{username}
+        h1.badge.bg-primary 天气预报
+        table.table.table-primary
+            tbody
+                tr
+                    th.table-primary 最高气温
+                    td.table-primary #{tempMax} 度
+                tr
+                    th.table-secondary 最低气温
+                    td.table-secondary #{tempMin} 度
+                tr
+                    th.table-success 预计今天降雨量
+                    td.table-success #{precip} 毫米
+                tr
+                    th.table-danger 相对湿度
+                    td.table-danger #{humidity}
+                tr
+                    th.table-warning 紫外线强度
+                    td.table-warning #{uvIndex}
+        h1.badge.bg-primary 每日娱乐新闻
+        table.table.table-primary
+            tbody
+                each news in newslist
+                    tr
+                        th.table-primary
+                            a(href=news.url) #{news.title}
+        h1.badge.bg-primary 每日脑筋急转弯
+        table.table.table-primary
+            tbody
+                tr
+                    th.table-primary #{quest}
+        h1.badge.bg-primary 名次解释
+        .card
+            .card-body
+                h5.card-title 相对湿度
+                p.card-text 空气中水汽压与相同温度下饱和水汽压的百分比。相对湿度上限值不应超过80%，下限值不应小于30%。冬天相对湿度为30%至80%；夏天相对湿度为30%至60%。在此范围内感到舒适的人占95%以上
+        .card
+            .card-body
+                h5.card-title 紫外线强度指数
+                p.card-text 当紫外线为最弱（0 ~ 2级）时对人体无太大影响，外出时戴上太阳帽即可；紫外线达3 ~ 4级时，外出时除戴上太阳帽外还需备太阳镜，并在身上涂上防晒霜，以避免皮肤受到太阳辐射的危害；当紫外线强度达到5 ~ 6级时，外出时必须在阴凉处行走；紫外线达7 ~ 9级时，在上午10时至下午4时这段时间最好不要到沙滩场地上晒太阳；当紫外线指数大于等于10时，应尽量避免外出，因为此时的紫外线辐射极具有伤害性。
+        p LOVE YOU

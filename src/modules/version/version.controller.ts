@@ -4,7 +4,6 @@ import { Controller, Get } from '@nestjs/common';
 const packageJson: any = fs.readFileSync(
   resolve(__dirname, '../../../package.json'),
 );
-
 @Controller('/')
 export class VersionController {
   @Get()

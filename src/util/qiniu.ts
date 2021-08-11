@@ -4,7 +4,7 @@ import { join } from 'path';
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const getFileKey = (file) => {
+const getFileKey = (file, prefix) => {
   const uuid = () => {
     function s4() {
       return Math.floor((1 + Math.random()) * 0x10000)
@@ -15,15 +15,14 @@ const getFileKey = (file) => {
   };
   const splitted = file.originalname.split('.');
   const extension = splitted[splitted.length - 1];
-
   return {
     fileName: uuid() + '.' + extension,
-    key: 'blog/' + uuid() + '.' + extension,
+    key: prefix ? `${prefix}` : 'resource/' + uuid() + '.' + extension,
   };
 };
 
-const saveFile = (file) => {
-  const { fileName, key } = getFileKey(file);
+const saveFile = (file, prefix) => {
+  const { fileName, key } = getFileKey(file, prefix);
   const filePath = join(__dirname, `./${fileName}`);
   writeFileSync(filePath, file.buffer);
   return { fileName, key };
@@ -34,12 +33,15 @@ const deleteFile = (name) => {
   unlinkSync(path);
 };
 
-export const saveToQiNIu = async (file) => {
-  const { fileName, key } = saveFile(file);
+export const saveToQiNIu = async (file, prefix) => {
+  const { fileName, key } = saveFile(file, prefix);
   await sleep(3000);
 
-  const mac = new qiniu.auth.digest.Mac(process.env.ACCESS_KEY, process.env.SECRET_KEY)
-  const options = {scope: process.env.BUCKET}
+  const mac = new qiniu.auth.digest.Mac(
+    process.env.ACCESS_KEY,
+    process.env.SECRET_KEY,
+  );
+  const options = { scope: process.env.BUCKET };
   const putPolicy = new qiniu.rs.PutPolicy(options);
   const uploadToken = putPolicy.uploadToken(mac);
   const config: any = new qiniu.conf.Config();
@@ -61,6 +63,30 @@ export const saveToQiNIu = async (file) => {
         if (respInfo.statusCode == 200) {
           deleteFile(fileName);
           resolve(respBody);
+        }
+      },
+    );
+  });
+};
+
+export const deleteQiNiuSource = async (key) => {
+  const mac = new qiniu.auth.digest.Mac(
+    process.env.ACCESS_KEY,
+    process.env.SECRET_KEY,
+  );
+  const config: any = new qiniu.conf.Config();
+  config.zone = qiniu.zone.Zone_z2;
+  const bucketManager = new qiniu.rs.BucketManager(mac, config);
+
+  return new Promise((resolve, reject) => {
+    bucketManager.delete(
+      process.env.BUCKET,
+      key,
+      function (err, respBody, respInfo) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(respInfo);
         }
       },
     );
