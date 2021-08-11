@@ -16,7 +16,7 @@ import { deleteQiNiuSource } from '../../util';
 
 import { AuthGuard } from '@nestjs/passport';
 
-// @UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard('jwt'))
 @Controller('/resource')
 export class ResourceController {
   constructor(private readonly resourceService: ResourceService) {}

@@ -15,8 +15,7 @@ import { EmailService } from './email.service';
 import { deleteQiNiuSource } from '../../util';
 
 import { AuthGuard } from '@nestjs/passport';
-
-// @UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard('jwt'))
 @Controller('/task')
 export class EmailController {
   constructor(private readonly emailService: EmailService) {}
