@@ -3,6 +3,11 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
+import {
+  utilities as nestWinstonModuleUtilities,
+  WinstonModule,
+} from 'nest-winston';
+import * as winston from 'winston';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TasksService } from './schedule/tasks.service';
 import { MailerModule } from '@nestjs-modules/mailer';
@@ -23,6 +28,17 @@ import {
 } from './modules';
 @Module({
   imports: [
+    WinstonModule.forRoot({
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.ms(),
+            nestWinstonModuleUtilities.format.nestLike(),
+          ),
+        }),
+      ],
+    }),
     ScheduleModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -56,6 +72,7 @@ import {
         },
       }),
     }),
+    // ---- InsertModel ----
     VersionModule,
     UserAccessModule,
     UserModule,

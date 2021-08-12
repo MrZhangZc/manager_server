@@ -9,8 +9,10 @@ import {
   Delete,
   UseGuards,
   Req,
-  Request,
+  Inject,
+  LoggerService,
 } from '@nestjs/common';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 import { AuthGuard } from '@nestjs/passport';
 import { CrawlerService } from './crawler.service';
@@ -19,7 +21,11 @@ import { fetchNbaNews } from '../../util';
 @UseGuards(AuthGuard('jwt'))
 @Controller('/crawler')
 export class CrawlerController {
-  constructor(private readonly crawlerService: CrawlerService) {}
+  constructor(
+    @Inject(WINSTON_MODULE_NEST_PROVIDER)
+    private readonly logger: LoggerService,
+    private readonly crawlerService: CrawlerService,
+  ) {}
 
   @Post()
   public async saveNesw(@Body() body) {
@@ -43,7 +49,8 @@ export class CrawlerController {
   }
 
   @Get('nba')
-  public async nba(@Query() { keyword }) {
+  public async nba(@Query() { keyword }, @Req() req) {
+    this.logger.log(`获取nba新闻: ${keyword}`, req.user.account);
     return await fetchNbaNews(keyword);
   }
 }

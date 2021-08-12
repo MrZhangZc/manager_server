@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { resolve } from 'path';
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Inject, LoggerService } from '@nestjs/common';
 const packageJson: any = fs.readFileSync(
   resolve(__dirname, '../../../package.json'),
 );

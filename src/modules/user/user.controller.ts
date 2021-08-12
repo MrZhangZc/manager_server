@@ -13,7 +13,6 @@ import {
 import { CreateUserDto } from '../../dto';
 import { UserService } from './user.service';
 
-import { Role, User } from '../../secmas';
 import { AuthGuard } from '@nestjs/passport';
 @UseGuards(AuthGuard('jwt'))
 @Controller('/user')

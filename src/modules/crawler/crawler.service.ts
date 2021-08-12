@@ -9,7 +9,6 @@ export class CrawlerService {
   private readonly articleRep: Repository<Article>;
 
   public async create(body: any) {
-    console.log(body);
     return await this.articleRep.save(body);
   }
 

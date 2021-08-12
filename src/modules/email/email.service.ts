@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, LoggerService } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Email, Resource } from '../../entities';
 import { Repository } from 'typeorm';
 import { MailerService } from '@nestjs-modules/mailer';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 import { Cron, Interval, Timeout } from '@nestjs/schedule';
 import { weatherDay, news, zhuawan } from '../../util';
@@ -13,6 +14,9 @@ import * as R from 'ramda';
 @Injectable()
 export class EmailService {
   constructor(private readonly mailerService: MailerService) {}
+
+  @Inject(WINSTON_MODULE_NEST_PROVIDER)
+  private readonly logger: LoggerService;
 
   @InjectRepository(Email)
   private readonly emailRep: Repository<Email>;
@@ -38,8 +42,9 @@ export class EmailService {
     };
   }
 
-  @Cron('0 20 5 * * *')
+  @Cron('0 20 21 * * *')
   async sendEmail() {
+    this.logger.log(`定时发送邮件${new Date()}`);
     const sql = `select path from resource where type='email' ORDER BY RANDOM() LIMIT 1`;
     const sqlres = await this.resourceRep.query(sql);
     const imgurl = 'https://file.lihailezzc.com/' + sqlres[0].path;
@@ -88,7 +93,6 @@ export class EmailService {
   }
 
   public async sendmail(emailTo) {
-    console.log(emailTo);
     const sql = `select path from resource where type='email' ORDER BY RANDOM() LIMIT 1`;
     const sqlres = await this.resourceRep.query(sql);
     const imgurl = 'https://file.lihailezzc.com/' + sqlres[0].path;
