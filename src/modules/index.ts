@@ -4,7 +4,8 @@ export * from './user/user.module';
 export * from './baidu/baidu.module';
 export * from './resource/resource.module';
 export * from './email/email.module';
-
+export * from './crawler/crawler.module';
+export * from './api/api.module';
 // blog
 export * from './visitor/visitor.module';
 export * from './article/article.module';
