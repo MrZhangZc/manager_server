@@ -11,7 +11,7 @@ const weatherDay = async (location) => {
 };
 
 const news = async () => {
-  const res = await API.get('/huabian/index', {
+  const res = await API.get('/social/index', {
     num: 5,
     key: process.env.API_BASE_KEY,
   });

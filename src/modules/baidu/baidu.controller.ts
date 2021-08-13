@@ -15,6 +15,7 @@ import {
 } from '@nestjs/common';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { ResourceService } from '../resource/resource.service';
+import { SystemLogService } from '../system_log/system_log.service';
 
 import { AuthGuard } from '@nestjs/passport';
 import { getBDAccessToken, characterRecognition } from '../../util';
@@ -26,6 +27,7 @@ export class BaiduController {
     @Inject(WINSTON_MODULE_NEST_PROVIDER)
     private readonly logger: LoggerService,
     private readonly resourceService: ResourceService,
+    private readonly systemLogService: SystemLogService,
   ) {}
 
   @Get('token')
@@ -43,6 +45,14 @@ export class BaiduController {
         type: 'ocr',
         path: path.slice(28),
         desc: '图片识别成功',
+      });
+      this.systemLogService.create({
+        operator: req.user.account,
+        operate_api: 'GET{db/ocr}',
+        third_api: 'GET{https://aip.baidubce.com/ocr}',
+        type: '第三方接口get访问',
+        parameter: { path },
+        addition: '图片识别',
       });
       return resultArr.join('');
     } else {

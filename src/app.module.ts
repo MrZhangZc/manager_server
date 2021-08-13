@@ -12,7 +12,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TasksService } from './schedule/tasks.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
-import { Resource, Email, Article } from './entities';
+import { Resource, Email, Article, Systemlog } from './entities';
 import {
   VersionModule,
   UserAccessModule,
@@ -25,6 +25,7 @@ import {
   EmailModule,
   CrawlerModule,
   ApiModule,
+  SystemLogModule,
 } from './modules';
 @Module({
   imports: [
@@ -47,7 +48,7 @@ import {
       username: process.env.POSTGRESQL_USERNAME,
       password: process.env.POSTGRESQL_PASSWORD,
       database: process.env.POSTGRESQL_DATABASE,
-      entities: [Resource, Email, Article],
+      entities: [Resource, Email, Article, Systemlog],
       // synchronize: true,
     }),
     MongooseModule.forRoot(process.env.DB_URL, {
@@ -73,6 +74,7 @@ import {
       }),
     }),
     // ---- InsertModel ----
+    SystemLogModule,
     VersionModule,
     UserAccessModule,
     UserModule,

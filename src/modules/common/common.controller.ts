@@ -1,12 +1,8 @@
-import * as fs from 'fs';
-import { resolve } from 'path';
 import {
   Controller,
-  Get,
   Post,
   UseInterceptors,
   UploadedFile,
-  Body,
   UseGuards,
   Query,
   Inject,

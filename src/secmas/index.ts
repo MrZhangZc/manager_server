@@ -4,3 +4,4 @@ export * from './article.secma';
 export * from './category.secma';
 export * from './comment.secma';
 export * from './visitor.secma';
+export * from './blogsystemlog.secma';
