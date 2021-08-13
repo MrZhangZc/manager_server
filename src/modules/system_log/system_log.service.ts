@@ -72,4 +72,50 @@ export class SystemLogService {
       count: res.length,
     };
   }
+
+  async findBlogGroup(query) {
+    const match = {};
+    if (query?.timeRange?.length) {
+      const [start, end] = query.timeRange;
+      Object.assign(match, {
+        createdAt: { $gte: new Date(start), $lt: new Date(end) },
+      });
+    }
+    let aggregateOpts = [];
+    const type = query?.type || 'day';
+    if (type === 'day') {
+      aggregateOpts = [
+        {
+          $project: {
+            day: { $substr: [{ $add: ['$createdAt', 28800000] }, 0, 10] }, //时区数据校准，8小时换算成毫秒数为8*60*60*1000=288000后分割成YYYY-MM-DD日期格式便于分组
+          },
+        },
+        {
+          $group: {
+            _id: '$day',
+            content_sum: { $sum: 1 },
+          },
+        },
+        {
+          $sort: {
+            _id: -1,
+          },
+        },
+      ];
+    } else {
+      aggregateOpts = [
+        {
+          $group: {
+            _id: '$' + type,
+            content_sum: { $sum: 1 },
+          },
+        },
+      ];
+    }
+    const res = await this.blogsystemlog.aggregate([
+      { $match: match },
+      ...aggregateOpts,
+    ]);
+    return res;
+  }
 }

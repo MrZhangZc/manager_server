@@ -13,3 +13,4 @@ export * from './email/email.module';
 export * from './crawler/crawler.module';
 export * from './api/api.module';
 export * from './system_log/system_log.module';
+export * from './note/note.module';

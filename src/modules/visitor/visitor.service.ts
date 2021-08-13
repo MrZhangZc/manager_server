@@ -56,6 +56,11 @@ export class VisitorUserService {
             content_sum: { $sum: 1 },
           },
         },
+        {
+          $sort: {
+            _id: -1,
+          },
+        },
       ];
     } else {
       Object.assign(match, {

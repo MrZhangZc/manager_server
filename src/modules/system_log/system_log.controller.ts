@@ -27,4 +27,9 @@ export class SystemLogController {
   public async getBlogLogList(@Query() query) {
     return await this.systemLogService.findBlogList(query);
   }
+
+  @Get('blog_group')
+  public async getBlogLogGroup(@Query() query) {
+    return await this.systemLogService.findBlogGroup(query);
+  }
 }
