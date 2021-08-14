@@ -140,4 +140,15 @@ export class EmailService {
     }
     return '发送成功';
   }
+
+  public async send(to, title, contet) {
+    return await this.mailerService.sendMail({
+      to,
+      from: process.env.EMAIL_FROMUSER,
+      subject: title,
+      html: `
+        <p>${contet}</p>
+      `,
+    });
+  }
 }

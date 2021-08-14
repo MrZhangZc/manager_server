@@ -12,6 +12,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TasksService } from './schedule/tasks.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
+import { RedisModule } from 'nestjs-redis';
 import { Resource, Email, Article, Systemlog, Note } from './entities';
 import {
   VersionModule,
@@ -42,6 +43,14 @@ import {
       ],
     }),
     ScheduleModule.forRoot(),
+    RedisModule.register({
+      url: process.env.REDIS_URL,
+      onClientReady: (client) => {
+        client.on('error', (err) => {
+          console.log(err);
+        });
+      },
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRESQL_HOST,
