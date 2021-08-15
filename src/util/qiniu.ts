@@ -17,7 +17,9 @@ const getFileKey = (file, prefix) => {
   const extension = splitted[splitted.length - 1];
   return {
     fileName: uuid() + '.' + extension,
-    key: prefix ? `${prefix}` : 'resource/' + uuid() + '.' + extension,
+    key: prefix
+      ? `${prefix}/` + uuid()
+      : 'resource/' + uuid() + '.' + extension,
   };
 };
 
