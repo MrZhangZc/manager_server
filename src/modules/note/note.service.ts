@@ -31,21 +31,30 @@ export class NoteService {
     return await this.noteRep.save(body);
   }
 
-  public async find(start, length, type, showAll) {
+  public async find(start, length, type, showAll, showAllRemind) {
     let where: any = { finish: false };
     if (showAll === 'true') {
       where = {};
-    } else {
+    } else if (showAll === 'false') {
       where = { finish: false };
     }
-    if (type) Object.assign(where, { type });
+    if (showAllRemind === 'true') {
+      where = {};
+    } else if (showAllRemind === 'false') {
+      where = { remind_out: false };
+    }
+    let order: any = {
+      finish: 'ASC',
+      createdAt: 'DESC',
+    };
+    if (type) {
+      Object.assign(where, { type });
+      if (type === 'remind') order = { remind_time: 'ASC', createdAt: 'DESC' };
+    }
 
     const list = await this.noteRep.findAndCount({
       where,
-      order: {
-        finish: 'ASC',
-        createdAt: 'DESC',
-      },
+      order,
       skip: start - 1,
       take: length,
     });
