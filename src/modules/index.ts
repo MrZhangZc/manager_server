@@ -14,3 +14,4 @@ export * from './crawler/crawler.module';
 export * from './api/api.module';
 export * from './system_log/system_log.module';
 export * from './note/note.module';
+export * from './site_collection/site_collection.module';

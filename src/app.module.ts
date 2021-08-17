@@ -13,7 +13,14 @@ import { TasksService } from './schedule/tasks.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import { RedisModule } from 'nestjs-redis';
-import { Resource, Email, Article, Systemlog, Note } from './entities';
+import {
+  Resource,
+  Email,
+  Article,
+  Systemlog,
+  Note,
+  SiteCollection,
+} from './entities';
 import {
   VersionModule,
   UserAccessModule,
@@ -28,6 +35,7 @@ import {
   ApiModule,
   SystemLogModule,
   NoteModule,
+  SiteCollectionModule,
 } from './modules';
 @Module({
   imports: [
@@ -58,7 +66,7 @@ import {
       username: process.env.POSTGRESQL_USERNAME,
       password: process.env.POSTGRESQL_PASSWORD,
       database: process.env.POSTGRESQL_DATABASE,
-      entities: [Note, Resource, Email, Article, Systemlog],
+      entities: [Note, Resource, Email, Article, Systemlog, SiteCollection],
       // synchronize: true,
     }),
     MongooseModule.forRoot(process.env.DB_URL, {
@@ -84,6 +92,7 @@ import {
       }),
     }),
     // ---- InsertModel ----
+    SiteCollectionModule,
     NoteModule,
     SystemLogModule,
     VersionModule,
