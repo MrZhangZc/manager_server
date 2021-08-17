@@ -31,7 +31,7 @@ export class NoteService {
     return await this.noteRep.save(body);
   }
 
-  public async find(start, length, type, showAll, showAllRemind) {
+  public async find(start, length, type, note_type, showAll, showAllRemind) {
     let where: any = { finish: false };
     if (showAll === 'true') {
       where = {};
@@ -51,6 +51,8 @@ export class NoteService {
       Object.assign(where, { type });
       if (type === 'remind') order = { remind_time: 'ASC', createdAt: 'DESC' };
     }
+
+    if (note_type) Object.assign(where, { note_type });
 
     const list = await this.noteRep.findAndCount({
       where,

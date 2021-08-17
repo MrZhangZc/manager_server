@@ -68,6 +68,14 @@ export class Note extends BaseEntity {
 
   @Column({
     nullable: true,
+    type: 'varchar',
+    length: 45,
+    comment: 'note类型',
+  })
+  note_type: string;
+
+  @Column({
+    nullable: true,
     type: 'timestamptz',
     comment: '提醒时间',
   })

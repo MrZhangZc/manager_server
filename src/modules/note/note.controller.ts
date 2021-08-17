@@ -28,12 +28,13 @@ export class NoteController {
 
   @Get()
   public async getList(
-    @Query() { start, length, type, showAll, showAllRemind },
+    @Query() { start, length, type, note_type, showAll, showAllRemind },
   ) {
     return await this.noteService.find(
       start,
       length,
       type,
+      note_type,
       showAll,
       showAllRemind,
     );
