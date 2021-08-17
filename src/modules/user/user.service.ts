@@ -20,8 +20,7 @@ export class UserService {
     return await this.roleModel.findOne(query);
   }
 
-  async findList(query) {
-    const { currentPage, pageSize, isPaging } = query;
+  async findList(currentPage, pageSize) {
     const skip = (Number(currentPage) - 1) * Number(pageSize || 10);
     const res = await this.userModel
       .find()

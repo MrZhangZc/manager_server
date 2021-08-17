@@ -67,9 +67,10 @@ export class SystemLogService {
       .limit(Number(pageSize))
       .sort({ createdAt: -1 })
       .exec();
+    const count = await this.blogsystemlog.countDocuments(where);
     return {
       list: res,
-      count: res.length,
+      count,
     };
   }
 

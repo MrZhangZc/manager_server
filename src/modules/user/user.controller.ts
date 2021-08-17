@@ -12,12 +12,16 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from '../../dto';
 import { UserService } from './user.service';
+import { UserLoginService } from './userlogin.service';
 
 import { AuthGuard } from '@nestjs/passport';
 @UseGuards(AuthGuard('jwt'))
 @Controller('/user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly userLoginService: UserLoginService,
+  ) {}
 
   @Post()
   async create(@Body() body: CreateUserDto) {
@@ -30,8 +34,8 @@ export class UserController {
   }
 
   @Get()
-  async userList(@Query() query) {
-    return await this.userService.findList(query);
+  async userList(@Query() { currentPage, pageSize }) {
+    return await this.userService.findList(currentPage, pageSize);
   }
 
   @Post('role')
@@ -48,5 +52,45 @@ export class UserController {
   async deleteRole(@Param() { id }) {
     await this.userService.deleteRole(id);
     return 'success';
+  }
+
+  // 用户登陆统计
+  @Get('login/stat')
+  public async userLoginStat(
+    @Query()
+    {
+      currentPage,
+      pageSize,
+      year = new Date().getFullYear(),
+      mouth = new Date().getMonth() + 1,
+    },
+  ) {
+    const { list, count } = await this.userService.findList(
+      currentPage,
+      pageSize,
+    );
+    const res = await Promise.all(
+      list.map(async (item) => {
+        return {
+          account: item.account,
+          role: item.role,
+          createdAt: item['createdAt'],
+          loginTimes: await this.userLoginService.getUserLoginTimes(
+            item.id,
+            year,
+            mouth,
+          ),
+          userRecentlyLogin: await this.userLoginService.getUserEarliestLogin(
+            item.id,
+            year,
+            mouth,
+          ),
+        };
+      }),
+    );
+    return {
+      list: res,
+      count,
+    };
   }
 }
