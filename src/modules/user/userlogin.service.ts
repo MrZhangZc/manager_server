@@ -12,15 +12,15 @@ export class UserLoginService {
     this.client = await this.redisService.getClient();
   }
 
-  public async getUserLoginTimes(userId, year, mouth) {
+  public async getUserLoginTimes(userId, year, month) {
     return await this.client.bitcount(
-      `${KEY.User_Login}${year}_${mouth}_${userId}`,
+      `${KEY.User_Login}${year}_${month}_${userId}`,
     );
   }
 
-  public async getUserEarliestLogin(userId, year, mouth) {
+  public async getUserEarliestLogin(userId, year, month) {
     return await this.client.bitpos(
-      `${KEY.User_Login}${year}_${mouth}_${userId}`,
+      `${KEY.User_Login}${year}_${month}_${userId}`,
       1,
     );
   }

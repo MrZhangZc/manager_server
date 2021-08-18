@@ -62,7 +62,7 @@ export class UserController {
       currentPage,
       pageSize,
       year = new Date().getFullYear(),
-      mouth = new Date().getMonth() + 1,
+      month = new Date().getMonth() + 1,
     },
   ) {
     const { list, count } = await this.userService.findList(
@@ -78,12 +78,12 @@ export class UserController {
           loginTimes: await this.userLoginService.getUserLoginTimes(
             item.id,
             year,
-            mouth,
+            month,
           ),
           userRecentlyLogin: await this.userLoginService.getUserEarliestLogin(
             item.id,
             year,
-            mouth,
+            month,
           ),
         };
       }),
