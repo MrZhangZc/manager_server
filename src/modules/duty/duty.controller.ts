@@ -40,6 +40,12 @@ export class DutyController {
     });
   }
 
+  @Get('exist')
+  public async getMonthDutyExits(@Query() { year, month }) {
+    const list = await this.dutyService.findMonthList(year, month);
+    return list.length;
+  }
+
   @Put('edit/:id')
   public async update(@Param() { id }, @Body() body) {
     return await this.dutyService.updateById(id, body);

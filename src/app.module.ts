@@ -38,6 +38,7 @@ import {
   NoteModule,
   SiteCollectionModule,
   DutyModule,
+  ClockinModule,
 } from './modules';
 @Module({
   imports: [
@@ -102,6 +103,7 @@ import {
       }),
     }),
     // ---- InsertModel ----
+    ClockinModule,
     DutyModule,
     SiteCollectionModule,
     NoteModule,

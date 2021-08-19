@@ -51,6 +51,5 @@ const fetchNews = async (path, word, page) => {
 
   return res.newslist;
 };
-console.log(123123, exports);
 
 export { weatherDay, news, zhuawan, story, fetchNews };
