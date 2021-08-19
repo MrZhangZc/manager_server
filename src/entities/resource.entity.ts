@@ -27,9 +27,9 @@ export class Resource extends BaseEntity {
   @Column({ nullable: true, type: 'varchar', length: 200, comment: '资源描述' })
   desc: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt: Date;
 }

@@ -15,3 +15,4 @@ export * from './api/api.module';
 export * from './system_log/system_log.module';
 export * from './note/note.module';
 export * from './site_collection/site_collection.module';
+export * from './duty/duty.module';

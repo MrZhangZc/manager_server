@@ -20,6 +20,7 @@ import {
   Systemlog,
   Note,
   SiteCollection,
+  Duty,
 } from './entities';
 import {
   VersionModule,
@@ -36,6 +37,7 @@ import {
   SystemLogModule,
   NoteModule,
   SiteCollectionModule,
+  DutyModule,
 } from './modules';
 @Module({
   imports: [
@@ -66,7 +68,15 @@ import {
       username: process.env.POSTGRESQL_USERNAME,
       password: process.env.POSTGRESQL_PASSWORD,
       database: process.env.POSTGRESQL_DATABASE,
-      entities: [Note, Resource, Email, Article, Systemlog, SiteCollection],
+      entities: [
+        Duty,
+        Note,
+        Resource,
+        Email,
+        Article,
+        Systemlog,
+        SiteCollection,
+      ],
       // synchronize: true,
     }),
     MongooseModule.forRoot(process.env.DB_URL, {
@@ -92,6 +102,7 @@ import {
       }),
     }),
     // ---- InsertModel ----
+    DutyModule,
     SiteCollectionModule,
     NoteModule,
     SystemLogModule,
