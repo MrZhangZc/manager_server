@@ -6,6 +6,10 @@
       {
         "include": "**/**/*.pug",
         "watchAssets": true
+      },
+      {
+        "include": "**/**/*.proto",
+        "watchAssets": true
       }
     ]
   }

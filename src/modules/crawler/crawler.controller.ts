@@ -18,14 +18,22 @@ import { AuthGuard } from '@nestjs/passport';
 import { CrawlerService } from './crawler.service';
 import { fetchNbaNews } from '../../util';
 
+import { ClentServe } from '../../grpc/grpc.client.server';
+
 @UseGuards(AuthGuard('jwt'))
 @Controller('/crawler')
 export class CrawlerController {
+  private newsService: any;
   constructor(
+    @Inject(ClentServe) private readonly clentServe: ClentServe,
     @Inject(WINSTON_MODULE_NEST_PROVIDER)
     private readonly logger: LoggerService,
     private readonly crawlerService: CrawlerService,
   ) {}
+
+  onModuleInit() {
+    this.newsService = this.clentServe.client.getService('News');
+  }
 
   @Post()
   public async saveNesw(@Body() body) {
@@ -52,5 +60,11 @@ export class CrawlerController {
   public async nba(@Query() { keyword }, @Req() req) {
     this.logger.log(`获取nba新闻: ${keyword}`, req.user.account);
     return await fetchNbaNews(keyword);
+  }
+
+  @Get('it')
+  public async it(@Query() { keyword }, @Req() req) {
+    const res = this.newsService.getNabNews({ keyword });
+    return res;
   }
 }
