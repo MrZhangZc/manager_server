@@ -21,6 +21,7 @@ import {
   Note,
   SiteCollection,
   Duty,
+  Crawler,
 } from './entities';
 import {
   VersionModule,
@@ -77,6 +78,7 @@ import {
         Article,
         Systemlog,
         SiteCollection,
+        Crawler,
       ],
       // synchronize: true,
     }),

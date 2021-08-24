@@ -1,15 +1,14 @@
 import {
   BaseEntity,
   Entity,
-  Unique,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('article')
-export class Article extends BaseEntity {
+@Entity('crawler')
+export class Crawler extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -29,10 +28,19 @@ export class Article extends BaseEntity {
 
   @Column({
     nullable: true,
-    type: 'text',
-    comment: '内容',
+    type: 'varchar',
+    length: 100,
+    comment: '来自于',
   })
-  content: string;
+  from: string;
+
+  @Column({
+    nullable: true,
+    type: 'varchar',
+    length: 100,
+    comment: 'dataid',
+  })
+  data_id: string;
 
   @Column({
     nullable: true,

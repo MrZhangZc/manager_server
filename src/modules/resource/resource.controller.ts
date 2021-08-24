@@ -9,17 +9,26 @@ import {
   Delete,
   UseGuards,
   Req,
+  Inject,
   Request,
 } from '@nestjs/common';
 import { ResourceService } from './resource.service';
 import { deleteQiNiuSource } from '../../util';
 
 import { AuthGuard } from '@nestjs/passport';
-
+import { ClentServe } from '../../grpc/grpc.client.server';
 @UseGuards(AuthGuard('jwt'))
 @Controller('/resource')
 export class ResourceController {
-  constructor(private readonly resourceService: ResourceService) {}
+  private newsService: any;
+  constructor(
+    @Inject(ClentServe) private readonly clentServe: ClentServe,
+    private readonly resourceService: ResourceService,
+  ) {}
+
+  onModuleInit() {
+    this.newsService = this.clentServe.client.getService('News');
+  }
 
   @Post()
   public async create(@Body() body) {
@@ -39,5 +48,12 @@ export class ResourceController {
       await this.resourceService.deleteOne(id);
     }
     return 'success';
+  }
+
+  @Get('screenShot')
+  public async screenShot(@Query() { href, id }) {
+    const res = await this.newsService.screenShot({ url: href, dataId: id });
+    return res;
+    // return await this.resourceService.list(currentPage, pageSize, type);
   }
 }

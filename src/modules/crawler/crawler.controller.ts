@@ -64,7 +64,7 @@ export class CrawlerController {
 
   @Get('it')
   public async it(@Query() { keyword }, @Req() req) {
-    const res = this.newsService.getNabNews({ keyword });
+    const res = await this.newsService.getNabNews({ keyword });
     return res;
   }
 }
