@@ -40,6 +40,16 @@ export class CrawlerController {
     return await this.crawlerService.create(body);
   }
 
+  @Get('list')
+  public async crawlers(@Query() { currentPage, pageSize, type, from }) {
+    return await this.crawlerService.crawlerList(
+      currentPage,
+      pageSize,
+      type,
+      from,
+    );
+  }
+
   @Get()
   public async news(@Query() { currentPage, pageSize, type }) {
     return await this.crawlerService.list(currentPage, pageSize, type);
@@ -58,13 +68,13 @@ export class CrawlerController {
 
   @Get('nba')
   public async nba(@Query() { keyword }, @Req() req) {
-    this.logger.log(`获取nba新闻: ${keyword}`, req.user.account);
+    this.logger.log(`获取nba新闻: ${keyword}`, req?.user?.account);
     return await fetchNbaNews(keyword);
   }
 
   @Get('it')
   public async it(@Query() { keyword }, @Req() req) {
-    const res = await this.newsService.getNabNews({ keyword });
+    const res = await this.newsService.getNbaWebNabNews({ keyword });
     return res;
   }
 }
