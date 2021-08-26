@@ -72,9 +72,16 @@ export class CrawlerController {
     return await fetchNbaNews(keyword);
   }
 
-  @Get('it')
-  public async it(@Query() { keyword }, @Req() req) {
-    const res = await this.newsService.getNbaWebNabNews({ keyword });
+  @Get('pnba')
+  public async pnba(@Query() { from }, @Req() req) {
+    let res = '';
+    if (from === 'sh') {
+      res = await this.newsService.getShNabNews({ keyword: 'nba' });
+    } else if (from === 'nba-web') {
+      res = await this.newsService.getNbaWebNabNews({ keyword: 'nba' });
+    } else {
+      res = await this.newsService.getHpNabNews({ keyword: 'nba' });
+    }
     return res;
   }
 }
