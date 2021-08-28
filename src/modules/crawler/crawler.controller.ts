@@ -84,4 +84,10 @@ export class CrawlerController {
     }
     return res;
   }
+
+  @Get('it')
+  public async it(@Query() { from }, @Req() req) {
+    const res = await this.newsService.getJJNews({ keyword: 'nba' });
+    return res;
+  }
 }
