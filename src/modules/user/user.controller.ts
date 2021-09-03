@@ -48,6 +48,11 @@ export class UserController {
     return await this.userService.findRole(query);
   }
 
+  @Get('chat')
+  async chatList(@Query() query) {
+    return await this.userService.getChatList(query);
+  }
+
   @Delete('role/:id')
   async deleteRole(@Param() { id }) {
     await this.userService.deleteRole(id);

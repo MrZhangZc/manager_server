@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, Role } from '../../secmas';
+import { User, Role, Chat } from '../../secmas';
 
 @Injectable()
 export class UserService {
@@ -10,6 +10,8 @@ export class UserService {
     private readonly userModel: Model<User>,
     @InjectModel(Role.name)
     private readonly roleModel: Model<Role>,
+    @InjectModel(Chat.name)
+    private readonly chatModel: Model<Chat>,
   ) {}
 
   async createUser(body): Promise<User> {
@@ -52,6 +54,11 @@ export class UserService {
       list: res,
       count: res.length,
     };
+  }
+
+  async getChatList(query) {
+    const res = await this.chatModel.find().sort({ createdAt: 1 }).exec();
+    return res;
   }
 
   async deleteRole(id) {

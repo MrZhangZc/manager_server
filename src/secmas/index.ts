@@ -5,3 +5,4 @@ export * from './category.secma';
 export * from './comment.secma';
 export * from './visitor.secma';
 export * from './blogsystemlog.secma';
+export * from './chat.secma';
