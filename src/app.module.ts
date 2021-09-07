@@ -40,6 +40,7 @@ import {
   SiteCollectionModule,
   DutyModule,
   ClockinModule,
+  OauthModule,
 } from './modules';
 @Module({
   imports: [
@@ -120,6 +121,7 @@ import {
     ResourceModule,
     EmailModule,
     CrawlerModule,
+    OauthModule,
     ApiModule,
   ],
   providers: [TasksService],

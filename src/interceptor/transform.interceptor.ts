@@ -21,7 +21,7 @@ export class TransformInterceptor<T>
   ): Observable<Response<T>> {
     return next.handle().pipe(
       map((data: any) => {
-        if (data['state'] && data['msg']) {
+        if (data?.state && data?.msg) {
           return {
             data: data['msg'],
             state: data['state'],

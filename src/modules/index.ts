@@ -17,3 +17,4 @@ export * from './note/note.module';
 export * from './site_collection/site_collection.module';
 export * from './duty/duty.module';
 export * from './clockin/clockin.module';
+export * from './oauth/oauth.module';

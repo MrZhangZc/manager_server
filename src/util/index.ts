@@ -5,3 +5,4 @@ export * from './baidu';
 export * from './api';
 export * from './crawler/nba';
 export * from './commom';
+export * from './oauth';

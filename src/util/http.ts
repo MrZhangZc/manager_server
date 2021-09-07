@@ -21,12 +21,16 @@ class Request {
   public async get(
     path: string,
     query: { [key: string]: any },
+    options: { [key: string]: any } = {},
   ): Promise<{ [key: string]: any }> {
     const url = (path += query ? `?${qs.stringify(query)}` : '');
     let result = {};
 
     try {
-      const { data: response }: IResponse = await this.request.get(url);
+      const { data: response }: IResponse = await this.request.get(
+        url,
+        options,
+      );
       result = response;
     } catch (err) {
       console.error(err);
