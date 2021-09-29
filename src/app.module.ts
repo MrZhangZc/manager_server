@@ -22,6 +22,8 @@ import {
   SiteCollection,
   Duty,
   Crawler,
+  Study,
+  StudyItem,
 } from './entities';
 import {
   VersionModule,
@@ -41,6 +43,7 @@ import {
   DutyModule,
   ClockinModule,
   OauthModule,
+  StudyModule,
 } from './modules';
 @Module({
   imports: [
@@ -80,6 +83,8 @@ import {
         Systemlog,
         SiteCollection,
         Crawler,
+        Study,
+        StudyItem,
       ],
       // synchronize: true,
     }),
@@ -106,6 +111,7 @@ import {
       }),
     }),
     // ---- InsertModel ----
+    StudyModule,
     ClockinModule,
     DutyModule,
     SiteCollectionModule,

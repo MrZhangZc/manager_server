@@ -20,6 +20,7 @@ const getGithubUserInfo = async (code) => {
       },
     },
   );
+  console.log(userInfo);
   return userInfo;
 };
 

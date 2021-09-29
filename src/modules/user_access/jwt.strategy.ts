@@ -13,9 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload) {
-    if (!payload.account) {
-      return false;
-    }
+    if (!payload.account) return false; // || payload.role !== 'admin'
     const user = {
       account: payload.account,
       id: payload.id,
