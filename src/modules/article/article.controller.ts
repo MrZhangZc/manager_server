@@ -92,6 +92,7 @@ export class ArticleController {
       category: category._id,
       author: userinfo._id,
       publishd: true,
+      desc: '文章描述',
     };
     return await this.articleService.createArticle(article);
   }

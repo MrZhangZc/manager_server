@@ -12,6 +12,9 @@ export class Category extends mongoose.Document {
   @Prop()
   abbreviation: string;
 
+  @Prop({ type: String, default: '文章描述' })
+  desc: any;
+
   @Prop(
     raw({
       createdAt: { type: Date },

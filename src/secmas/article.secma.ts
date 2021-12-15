@@ -18,6 +18,9 @@ export class Article extends mongoose.Document {
   @Prop({ type: Array })
   tags: any;
 
+  @Prop({ type: String, default: '文章描述' })
+  desc: any;
+
   @Prop()
   abbreviation: string;
 
