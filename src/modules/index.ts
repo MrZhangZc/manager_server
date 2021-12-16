@@ -19,3 +19,4 @@ export * from './duty/duty.module';
 export * from './clockin/clockin.module';
 export * from './oauth/oauth.module';
 export * from './study/study.module';
+export * from './banner/banner.module';

@@ -7,3 +7,4 @@ export * from './visitor.secma';
 export * from './blogsystemlog.secma';
 export * from './chat.secma';
 export * from './oauth_user.secma';
+export * from './banner.secma';

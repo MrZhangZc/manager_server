@@ -44,6 +44,7 @@ import {
   ClockinModule,
   OauthModule,
   StudyModule,
+  BannerModule,
 } from './modules';
 @Module({
   imports: [
@@ -111,6 +112,7 @@ import {
       }),
     }),
     // ---- InsertModel ----
+    BannerModule,
     StudyModule,
     ClockinModule,
     DutyModule,
