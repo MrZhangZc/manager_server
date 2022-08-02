@@ -3,6 +3,7 @@ import { Controller, Get, Query, UseGuards, Req } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { story, fetchNews } from '../../util';
 import { SystemLogService } from '../system_log/system_log.service';
+
 @UseGuards(AuthGuard('jwt'))
 @Controller('/api')
 export class ApiController {

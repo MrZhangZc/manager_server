@@ -13,7 +13,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { ResourceService } from './resource.service';
-import { deleteQiNiuSource } from '../../util';
+import { deleteQiNiuSource, uploadFileByUrl } from '../../util';
 
 import { AuthGuard } from '@nestjs/passport';
 import { ClentServe } from '../../grpc/grpc.client.server';
@@ -33,6 +33,17 @@ export class ResourceController {
   @Post()
   public async create(@Body() body) {
     return await this.resourceService.create(body);
+  }
+
+  @Post('url')
+  public async createUrl(@Body() body) {
+    const { url, prefix } = body;
+    const path = await uploadFileByUrl(url, prefix);
+    return await this.resourceService.create({
+      type: 'url',
+      path,
+      desc: '通过url直接上传',
+    });
   }
 
   @Get()
