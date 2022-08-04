@@ -1,3 +1,6 @@
+// data
+export * from './data'
+
 // blog
 export * from './visitor/visitor.module';
 export * from './article/article.module';
@@ -20,3 +23,7 @@ export * from './clockin/clockin.module';
 export * from './oauth/oauth.module';
 export * from './study/study.module';
 export * from './banner/banner.module';
+
+
+// game
+export * from './djjl/djjl.module'

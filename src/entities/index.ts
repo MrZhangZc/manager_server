@@ -8,3 +8,6 @@ export * from './duty.entity';
 export * from './crawler.eneity';
 export * from './study.entity';
 export * from './studyItem.entity';
+
+// game
+export * from './player.entity';
