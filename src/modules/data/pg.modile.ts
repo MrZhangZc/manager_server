@@ -2,7 +2,7 @@
  * @Author: zzc 1761997216@qq.com
  * @Date: 2022-08-04 11:24:39
  * @LastEditors: zzc 1761997216@qq.com
- * @LastEditTime: 2022-08-04 11:39:54
+ * @LastEditTime: 2022-08-08 17:50:13
  * @FilePath: /manager_server/src/modules/data/pg.modile.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -13,7 +13,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Resource, Email, Article, Systemlog, Note, SiteCollection, Duty, Crawler, Study, StudyItem,
-         Player,
+         Player, Hero
 } from 'src/entities';
 
 @Module({
@@ -36,7 +36,7 @@ import { Resource, Email, Article, Systemlog, Note, SiteCollection, Duty, Crawle
       username: process.env.POSTGRESQL_USERNAME,
       password: process.env.POSTGRESQL_PASSWORD,
       database: process.env.POSTGRESQL_DATABASE2,
-      entities: [ Player ]
+      entities: [ Player, Hero ]
       // synchronize: true,
     }),
   ],

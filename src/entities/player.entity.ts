@@ -52,7 +52,7 @@ export class Player extends BaseEntity {
     type: 'text',
     array: true,
   })
-  sign_skill: string[];
+  sign_hero: string[];
 
   @Column({
     nullable: true,
@@ -77,6 +77,9 @@ export class Player extends BaseEntity {
     comment: '背景照片',
   })
   bg_photo: string;
+
+  @Column({ nullable: false, type: 'varchar', length: 45, comment: '位置' })
+  place: string;
 
   @CreateDateColumn({ type: 'timestamptz' })
   created_at: Date;

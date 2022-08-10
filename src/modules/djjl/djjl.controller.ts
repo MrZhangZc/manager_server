@@ -8,8 +8,24 @@ export class DjjlController {
   constructor(private readonly djjlService: DjjlService) {}
   
   @Get('player')
-  public async getList() {
-    return await this.djjlService.findAllPlayer();
+  public async getList(@Query() { currentPage, pageSize, type }) {
+    const {list, total} = await this.djjlService.findAllPlayer(currentPage, pageSize, type);
+
+    const res = await Promise.all(list.map(async item => {
+        const [hero_info, sign_hero_info] = await Promise.all([
+          this.djjlService.getHeroInfo(item.hero),
+          this.djjlService.getHeroInfo(item.sign_hero),
+        ])
+        return {
+          hero_info,
+          sign_hero_info,
+          ...item
+        }
+    }))
+    return {
+      list:res,
+      total
+    }
   }
 
   @Post()
