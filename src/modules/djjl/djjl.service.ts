@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
-import { Player, Hero } from 'src/entities';
+import { Player, Hero, GiftDjjl } from 'src/entities';
 
 @Injectable()
 export class DjjlService {
@@ -10,6 +10,9 @@ export class DjjlService {
 
   @InjectRepository(Hero, 'game')
   private readonly heroRep: Repository<Hero>;
+
+  @InjectRepository(GiftDjjl, 'game')
+  private readonly giftDjjlRep: Repository<GiftDjjl>;
   
   public async findAllPlayer(currentPage, pageSize, type) {
     const skip = (Number(currentPage) - 1) * Number(pageSize || 10);
@@ -27,6 +30,42 @@ export class DjjlService {
     };
   }
   
+  public async findAllGift(currentPage, pageSize) {
+    const skip = (Number(currentPage) - 1) * Number(pageSize || 10);
+    const info =  await this.giftDjjlRep.findAndCount({
+      order: {
+        state: 'DESC',
+        rank_num: 'ASC'
+      },
+      skip,
+      take: pageSize,
+    });
+
+    return {
+      list: info[0],
+      total: info[1],
+    };
+  }
+
+  public async findMaxRank() {
+    const info =  await this.giftDjjlRep.findOne({
+      order: {
+        state: 'DESC',
+        rank_num: 'DESC'
+      }
+    });
+
+    return info?.rank_num + 1 || 1
+  }
+
+  public async createGift(body) {
+    return await this.giftDjjlRep.create(body);
+  }
+
+  public async updateGiftById(id, body) {
+    console.log(id, body)
+    return await this.giftDjjlRep.update(id, body);
+  }
 
   public async getHeroInfo(ids) {
     return await this.heroRep.find({

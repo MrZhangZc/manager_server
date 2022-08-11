@@ -13,7 +13,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Resource, Email, Article, Systemlog, Note, SiteCollection, Duty, Crawler, Study, StudyItem,
-         Player, Hero
+         Player, Hero, GiftDjjl
 } from 'src/entities';
 
 @Module({
@@ -36,7 +36,7 @@ import { Resource, Email, Article, Systemlog, Note, SiteCollection, Duty, Crawle
       username: process.env.POSTGRESQL_USERNAME,
       password: process.env.POSTGRESQL_PASSWORD,
       database: process.env.POSTGRESQL_DATABASE2,
-      entities: [ Player, Hero ]
+      entities: [ Player, Hero, GiftDjjl ]
       // synchronize: true,
     }),
   ],

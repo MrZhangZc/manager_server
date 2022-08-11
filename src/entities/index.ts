@@ -12,3 +12,4 @@ export * from './studyItem.entity';
 // game
 export * from './player.entity';
 export * from './hero.entity'
+export * from './gift_djjl.entity'
