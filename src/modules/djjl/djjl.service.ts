@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
-import { Player, Hero, GiftDjjl } from 'src/entities';
+import { In, Like, Repository } from 'typeorm';
+import { Player, Hero, GiftDjjl, Skill } from 'src/entities';
 
 @Injectable()
 export class DjjlService {
@@ -13,10 +13,16 @@ export class DjjlService {
 
   @InjectRepository(GiftDjjl, 'game')
   private readonly giftDjjlRep: Repository<GiftDjjl>;
+
+  @InjectRepository(Skill, 'game')
+  private readonly skillRep: Repository<Skill>;
   
-  public async findAllPlayer(currentPage, pageSize, type) {
+  public async findAllPlayer(currentPage, pageSize, search) {
     const skip = (Number(currentPage) - 1) * Number(pageSize || 10);
+    const where = {}
+    if(search) Object.assign(where, {name: search})
     const info =  await this.playerRep.findAndCount({
+      where: where,
       order: {
         quality: 'ASC'
       },
@@ -47,6 +53,33 @@ export class DjjlService {
     };
   }
 
+  public async findHeroList(currentPage, pageSize, search) {
+    const skip = (Number(currentPage) - 1) * Number(pageSize || 10);
+    const where = {}
+    if(search) Object.assign(where, {name: Like(`%${search}%`)})
+    const info =  await this.heroRep.findAndCount({
+      where,
+      order: {
+        name: 'ASC',
+      },
+      skip,
+      take: pageSize,
+    });
+
+    return {
+      list: info[0],
+      total: info[1],
+    };
+  }
+  
+  public async updatePlayerId(id, body) {
+    return await this.playerRep.update(id, body);
+  }
+
+  public async updateHeroId(id, body) {
+    return await this.heroRep.update(id, body);
+  }
+
   public async findMaxRank() {
     const info =  await this.giftDjjlRep.findOne({
       order: {
@@ -59,7 +92,7 @@ export class DjjlService {
   }
 
   public async createGift(body) {
-    return await this.giftDjjlRep.create(body);
+    return await this.giftDjjlRep.save(body);
   }
 
   public async updateGiftById(id, body) {
@@ -76,8 +109,43 @@ export class DjjlService {
     })
   }
 
-  public async create(body) {
-    return await this.playerRep.create(body);
+  public async getSkillInfo(ids) {
+    return await this.skillRep.find({
+      where: {
+        id: In(ids)
+      },
+      select: ['id', 'icon', 'name', 'description']
+    })
+  }
+
+  public async getAllHreo() {
+    return await this.heroRep.find({
+      select: ['id', 'icon', 'name'],
+      order: {
+        name: 'ASC'
+      }
+    })
+  }
+
+  public async getAllSkill() {
+    return await this.skillRep.find({
+      select: ['id', 'icon', 'name'],
+      order: {
+        name: 'ASC'
+      }
+    })
+  }
+
+  public async createPlayer(body) {
+    return await this.playerRep.save(body);
+  }
+
+  public async createHero(body) {
+    return await this.heroRep.save(body);
+  }
+
+  public async createSkill(body) {
+    return await this.skillRep.save(body);
   }
 
   public async find() {

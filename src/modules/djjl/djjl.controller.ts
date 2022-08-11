@@ -8,17 +8,19 @@ export class DjjlController {
   constructor(private readonly djjlService: DjjlService) {}
   
   @Get('player')
-  public async getList(@Query() { currentPage, pageSize, type }) {
-    const {list, total} = await this.djjlService.findAllPlayer(currentPage, pageSize, type);
+  public async getList(@Query() { currentPage, pageSize, search }) {
+    const {list, total} = await this.djjlService.findAllPlayer(currentPage, pageSize, search);
 
     const res = await Promise.all(list.map(async item => {
-        const [hero_info, sign_hero_info] = await Promise.all([
+        const [hero_info, sign_hero_info, skill_info] = await Promise.all([
           this.djjlService.getHeroInfo(item.hero),
           this.djjlService.getHeroInfo(item.sign_hero),
+          this.djjlService.getSkillInfo(item.skill),
         ])
         return {
           hero_info,
           sign_hero_info,
+          skill_info,
           ...item
         }
     }))
@@ -30,23 +32,32 @@ export class DjjlController {
 
   @Get('gift')
   public async getGiftList(@Query() { currentPage, pageSize }) {
-    const {list, total} = await this.djjlService.findAllGift(currentPage, pageSize);
+    return await this.djjlService.findAllGift(currentPage, pageSize);
+  }
 
-    // const res = await Promise.all(list.map(async item => {
-    //     const [hero_info, sign_hero_info] = await Promise.all([
-    //       this.djjlService.getHeroInfo(item.hero),
-    //       this.djjlService.getHeroInfo(item.sign_hero),
-    //     ])
-    //     return {
-    //       hero_info,
-    //       sign_hero_info,
-    //       ...item
-    //     }
-    // }))
-    return {
-      list,
-      total
-    }
+  @Get('hero')
+  public async getHeroList(@Query() { currentPage, pageSize, search }) {
+    return await this.djjlService.findHeroList(currentPage, pageSize, search);
+  }
+
+  @Post('player')
+  public async addPlayer(@Body() body) {
+    return await this.djjlService.createPlayer(body);
+  }
+
+  @Post('hero')
+  public async addHero(@Body() body) {
+    return await this.djjlService.createHero(body);
+  }
+
+  @Put('hero/:id')
+  public async updateHero(@Param() { id }, @Body() body) {
+    return await this.djjlService.updateHeroId(id, body);
+  }
+
+  @Put('player/:id')
+  public async updatePlayer(@Param() { id }, @Body() body) {
+    return await this.djjlService.updatePlayerId(id, body);
   }
 
   @Post('gift')
@@ -59,8 +70,17 @@ export class DjjlController {
 
   @Put('gift/:id')
   public async update(@Param() { id }, @Body() body) {
-    console.log(1111111, id)
     return await this.djjlService.updateGiftById(id, body);
+  }
+
+  @Get('all_hero')
+  public async allHreo() {
+    return await this.djjlService.getAllHreo()
+  }
+
+  @Get('all_skill')
+  public async allSkill() {
+    return await this.djjlService.getAllSkill()
   }
 
   @Delete(':id')
